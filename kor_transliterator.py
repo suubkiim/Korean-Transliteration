@@ -19,7 +19,7 @@ from engkor_transliterator import seq2seq_att_pt
 
 
 ####################
-# 숫자 영어 음역  모델 #
+# 영어 한글 음역  모델 #
 ####################
 # surce :https://github.com/gritmind/engkor_transliterator
 

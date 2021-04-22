@@ -188,4 +188,5 @@ class Transliterator():
         self._heuristic_transliteration()
         self._eng2kor()
         self._num2kor()
+        
         return self.text

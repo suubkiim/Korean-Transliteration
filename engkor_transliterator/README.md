@@ -1,7 +1,45 @@
-# Eng-Kor Transliterator (영한 음역기) 
-### [source : gritmind/engkor_transliterator](https://github.com/gritmind/engkor_transliterator)
+# Eng-to-Kor Transliterator (영한 음차 변환기)
 
-This project is for building a transliterator, transferring a word from the alphabet of Englsih to Korean. To be robust, it is made by deep learning model, that is, "sequence to sequence with attention" model, rather than rule based model. Training data is mainly from names of people or places. You can use this system via simply python import. See `Usage`.
+This project is for building a transliterator, transferring a word from the alphabet of Englsih to Korean. To be robust, it is made by deep learning model, called "sequence to sequence with attention", rather than rule based model. Training data is mainly from names of people or places. You can use this system via simply python import. See `Usage`.
+
+<br>
+
+## Prerequisites
+```
+$ pip install -r requirements.txt
+```
+
+## Usage
+
+### ver1. Train model
+
+```
+$ python seq2seq_att.py --train
+```
+
+```python
+from engkor_transliterator import seq2seq_att
+model = seq2seq_att.Transliterator()
+model.train() # train
+model.decode_sequence('attention') # input: attention
+>>>
+('어텐션', 0.9819696)
+```
+
+### ver2. Use pre-trained model
+
+```
+$ python seq2seq_att.py --test
+```
+
+```python
+from engkor_transliterator import seq2seq_att
+model = seq2seq_att.Transliterator()
+model.use_pretrained_model() # use pre-trained model
+model.decode_sequence('attention') # input: attention
+>>>
+('어텐션', 0.9819696)
+```
 
 <br>
 
@@ -19,7 +57,7 @@ This project is for building a transliterator, transferring a word from the alph
 
 영문과 같이 한글의 vocabulary 구성도 음소단위(ex.자음,모음)로 구성했습니다. 이를 통해 vocab 사이즈와 학습해야 되는 패턴을 최소화할 수 있고, 높은 일반성을 가지기에 학습 시그널이 부족한 단어가 들어와도 잘 대응할 수 있다는 기대를 가질 수 있습니다. 다음 표를 통해 음절단위로 구성된 muik 모델과 음소단위로 구성된 본 프로젝트의 seq2seq_att 모델과의 결과를 비교할 수 있습니다. 두 모델은 똑같은 데이터셋으로 학습하였습니다. 다음 예제는 모두 학습 데이터 존재하지 않는 단어들입니다.
 
-| input           | muik          |    seq2seq_att    |
+| input           | muik          |    ours    |
 | :-------------: |:-------------:|:------:|
 | attention      | 애텐션           |   어텐션   |
 | tokenizer      | 토케니저         |   토크나이저   |
@@ -30,37 +68,7 @@ This project is for building a transliterator, transferring a word from the alph
 (참고) gritmind처럼 두 개의 단어(grit, mind)가 하나로 합쳐진 단어일 경우, 언더바를 중간에 추가하고 입력에 넣을 경우 결과가 더 잘 나올 수 있습니다. 예) 'gritmind'->'그리트민드', 'grit_mind'->'그릿마인드'
 
 
-## Prerequisites
-* tensorflow 1.13.1
-* keras 2.2.4
-* numpy 1.16.1
-* hgtk 0.1.3
-* matplotlib 3.0.3
 
-
-## Usage
-
-### ver1. Train model
-
-```python
-from engkor_transliterator import seq2seq_att
-model = seq2seq_att.Transliterator()
-model.train() # train
-model.decode_sequence('attention') # input: attention
->>>
-('어텐션', 0.9819696)
-```
-
-### ver2. Use pre-trained model
-
-```python
-from engkor_transliterator import seq2seq_att
-model = seq2seq_att.Transliterator()
-model.use_pretrained_model() # use pre-trained model
-model.decode_sequence('attention') # input: attention
->>>
-('어텐션', 0.9819696)
-```
 
 
 ## References
